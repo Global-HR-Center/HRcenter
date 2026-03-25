@@ -25,11 +25,31 @@
       
       fbq('init', '25901272476234933'); 
       fbq('track', 'PageView');
+
+      // Исправленная функция отправки данных и перехода
+      function sendLead(e) {
+          // Отправляем событие Contact с ценой и валютой
+          if (typeof fbq !== 'undefined') {
+              fbq('track', 'Contact', {
+                  value: 1.00,
+                  currency: 'USD'
+              });
+          }
+          
+          // Даем пикселю 200мс, чтобы успеть отправить запрос перед переходом
+          var targetUrl = e.currentTarget.href;
+          setTimeout(function() {
+              window.location.href = targetUrl;
+          }, 200);
+
+          return false; // Блокируем мгновенный переход
+      }
     </script>
     <noscript>
       <img height="1" width="1" style="display:none" 
            src="https://www.facebook.com/tr?id=25901272476234933&ev=PageView&noscript=1"/>
     </noscript>
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
         body {
@@ -100,12 +120,13 @@
         <div style="font-size: 40px; margin-bottom: 20px; color: #d4af37;">🏛️</div>
         <h2>Global <span>Hiring</span> Center</h2>
         <p>Мы предлагаем официальное сотрудничество в международном формате. Гибкий график, удаленная работа со смартфона или ПК, стабильные выплаты и бесплатное профильное обучение.</p>
+        
         <a href="https://t.me/worknaudalenke_bot" 
            class="btn" 
-           target="_blank"
-           onclick="fbq('track', 'Contact', {value: 1.00, currency: 'USD'});">
+           onclick="return sendLead(event);">
            <span class="btn-icon">→</span>Подать заявку
         </a>
+
         <div style="font-size: 11px; color: #555555; margin-top: 20px; font-weight: 300;">
             Ваша заявка будет обработана в течение 1 часа
         </div>
